@@ -1,6 +1,113 @@
 ﻿using System;
 using System.Collections.Generic;
-using Lab04;
+public class Model
+{
+    public string Name
+    {
+        get;
+
+    }
+    public Model(String name)
+    {
+        this.Name = name;
+    }
+}
+
+public class Engine
+{
+    public int Speed
+    {
+        get;
+    }
+    public int Power
+    {
+        get;
+    }
+
+    public Engine(int speed, int power)
+    {
+        Speed = speed;
+        Power = power;
+    }
+}
+
+public class Cargo
+{
+    public int Weight
+    {
+        get;
+    }
+    public string Type
+    {
+        get;
+    }
+
+    public Cargo(int weight, string type)
+    {
+        Weight = weight;
+        Type = type;
+    }
+}
+
+public class Tire
+{
+    public int Age
+    {
+        get;
+    }
+    public double Pressure
+    {
+        get;
+    }
+
+    public Tire(double pressure, int age)
+    {
+        Age = age;
+        Pressure = pressure;
+    }
+
+}
+
+public class Car
+{
+    public Model Model
+    {
+        get;
+    }
+    public Cargo Cargo
+    {
+        get;
+    }
+    public Engine Engine
+    {
+        get;
+    }
+    public List<Tire> Tires
+    {
+        get;
+    }
+
+    public Car(Model model, Engine engine, Cargo cargo, List<Tire> tires)
+    {
+        Model = model;
+        Engine = engine;
+        Cargo = cargo;
+        Tires = tires;
+    }
+
+    public Car()
+    { }
+
+    public override string ToString()
+    {
+        string res = Model.Name + " " + Engine.Speed + " " + Engine.Power + " " + Cargo.Weight + " " + Cargo.Type;
+        foreach (Tire tire in Tires)
+        {
+            res.Concat(" " + tire.ToString());
+        }
+        return res;
+    }
+}
 public class Program
 {
     public static void Main()
@@ -32,7 +139,7 @@ public class Program
                          where car.Cargo.Type.Equals("fragile")
                          select car;
             resultList.Where(car => car.Tires.Where(tire => tire.Pressure < 1).Count() > 0).Select(car => car).ToList().ForEach(car => Console.WriteLine(car));
-            
+
 
         }
         else if (type.Equals("flamable"))
@@ -41,7 +148,7 @@ public class Program
                          where car.Cargo.Type.Equals("flamable")
                          select car;
             resultList.Where(car => car.Engine.Power > 250).Select(car => car).ToList().ForEach(car => Console.WriteLine(car));
-            
+
         }
     }
 }
