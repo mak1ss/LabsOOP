@@ -1,27 +1,27 @@
 ﻿public class Department
 {
     private string name;
-    public Patient[,] Patients = new Patient[20,3];
+    public Patient[,] Patients = new Patient[20, 3];
 
     private int currentRoomRow = 0;
     private int currentRoomColumn = 0;
 
-    public Department (string name)
+    public Department(string name)
     {
         this.name = name;
     }
 
     public void addPatient(Patient patient)
-    {   
-        if(currentRoomColumn == 2 && currentRoomRow == 19)
+    {
+        if (currentRoomColumn == 2 && currentRoomRow == 19)
         {
             throw new Exception("This department is full");
         }
         Patients[currentRoomRow, currentRoomColumn] = patient;
         currentRoomColumn++;
-        if(currentRoomColumn > 2 )
+        if (currentRoomColumn > 2)
         {
-            currentRoomRow ++;
+            currentRoomRow++;
             currentRoomColumn = 0;
         }
     }
@@ -29,21 +29,21 @@
     public override string ToString()
     {
         string result = "";
-        foreach( Patient patient in Patients ) 
-        {   
-            if(patient != null)
+        foreach (Patient patient in Patients)
+        {
+            if (patient != null)
             {
                 result += (patient.ToString() + "\n");
-            }             
+            }
         }
         return result;
     }
     public string ToString(int room)
     {
         string result = "";
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
-            result += (Patients[room - 1, i].ToString() + "\n"); 
+            result += (Patients[room - 1, i].ToString() + "\n");
         }
         return result;
     }
@@ -67,8 +67,8 @@ public class Patient
         Name = name;
     }
 
-    public override string ToString() 
-    { 
+    public override string ToString()
+    {
         return Name;
     }
 }
@@ -81,7 +81,7 @@ public class Doctor
     {
         return Patients;
     }
-    public Doctor (string name, string surname)
+    public Doctor(string name, string surname)
     {
         Name = name;
         Surname = surname;
@@ -104,7 +104,7 @@ public class Program
         Dictionary<String, Department> departments = new Dictionary<String, Department>();
         Dictionary<String, Doctor> doctors = new Dictionary<String, Doctor>();
         string input = "";
-        while(!input.Equals("End")) 
+        while (!input.Equals("End"))
         {
             input = Console.ReadLine();
             if (input.Equals("Output"))
@@ -114,7 +114,7 @@ public class Program
                     input = Console.ReadLine();
                     string[] command = input.Split(" ");
                     if (departments.ContainsKey(command[0]))
-                    {   
+                    {
                         Department outputDepartment = departments[command[0]];
                         if (command.Length > 1)
                         {
@@ -124,26 +124,28 @@ public class Program
                         {
                             Console.WriteLine(outputDepartment.ToString());
                         }
-                    } else if (command.Length > 1 && doctors.ContainsKey(command[0] + " " + command[1]))
+                    }
+                    else if (command.Length > 1 && doctors.ContainsKey(command[0] + " " + command[1]))
                     {
                         Console.WriteLine(doctors[command[0] + " " + command[1]].ToString());
                     }
-                    
-                    
+
+
                 }
-            } else
+            }
+            else
             {
                 string[] parameters = input.Split(" ");
-                if (parameters.Length != 4 )
+                if (parameters.Length != 4)
                 {
                     Console.WriteLine("Invalid input");
                     continue;
                 }
                 Department department;
-                
+
                 if (departments.ContainsKey(parameters[0]))
                 {
-                    department = departments[parameters[0]];                 
+                    department = departments[parameters[0]];
                 }
                 else
                 {
@@ -156,13 +158,14 @@ public class Program
                 if (doctors.ContainsKey(parameters[1] + " " + parameters[2]))
                 {
                     doctor = doctors[parameters[1] + " " + parameters[2]];
-                } else
+                }
+                else
                 {
                     doctor = new Doctor(parameters[1], parameters[2]);
                     doctors.Add(doctor.Name + " " + doctor.Surname, doctor);
                 }
-               
-                doctor.GetPatients().Add(patient);      
+
+                doctor.GetPatients().Add(patient);
             }
 
         }

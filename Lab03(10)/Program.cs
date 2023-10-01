@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-internal class Car
+﻿internal class Car
 {
     public string Model { get; }
     public Engine Engine { get; }
