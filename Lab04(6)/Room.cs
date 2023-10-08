@@ -116,7 +116,7 @@ namespace Lab04
             {
                 enemyDir = 'd';
                 index = room[row].ToList().IndexOf(enemyDir);
-            } else if (room[row].Contains('N'))
+            } else if (room[row].Contains('N')  || row == NikoRow)
             {
                 enemyDir = 'N';
                 index = room[row].ToList().IndexOf(enemyDir);
@@ -129,8 +129,17 @@ namespace Lab04
             if (SamRow == NikoRow)
             {
                 SamWon = true;
-                room[SamRow][enemyPosition.Value] = 'X';
-                return true;
+                if(enemyPosition.Value == -1)
+                {   
+                    room[SamRow][SamCol] = 'X';
+                    SamCol = SamCol + 1 == room[SamRow].Length ? SamCol - 1 : SamCol + 1;                    
+                    room[SamRow][SamCol] = 'S';
+                } else
+                {
+                    room[SamRow][enemyPosition.Value] = 'X';
+                    return true;
+                }
+                
             }
             if (enemyPosition.Value == -1)
             {
