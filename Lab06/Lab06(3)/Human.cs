@@ -15,7 +15,7 @@ namespace Lab06
         public Human(string firstName, string lastName)
         {
             FirstName = firstName;
-
+            LastName = lastName;
         }
 
         public virtual string FirstName

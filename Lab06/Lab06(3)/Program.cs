@@ -17,8 +17,8 @@ internal class Program
         }
         if(student != null && worker != null)
         {
-            student.ToString();
-            worker.ToString();
+            Console.WriteLine(student.ToString());
+            Console.WriteLine(worker.ToString());
 
         }
 
