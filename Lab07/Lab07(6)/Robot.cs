@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Lab07_5_
 {
-    internal class Robot : IEntity
+    internal class Robot : IIdentifiable
     {
         public string Model {  get; private set; }
-
+        public long Id { get; set; }
 
         public Robot(string model, long id)
         {
             Model = model;
-            base.Id = id;
+            Id = id;
         }
     }
 }

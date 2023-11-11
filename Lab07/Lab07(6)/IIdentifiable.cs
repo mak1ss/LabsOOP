@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Lab07_5_
 {
-    internal abstract class Entity
+    internal interface IIdentifiable
     {
-        public long Id { get; protected set; }
+        public long Id { get; set; }
     }
 }
