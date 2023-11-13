@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab07_6_
+namespace Lab07_7_
 {
     internal interface IIdentifiable
     {
