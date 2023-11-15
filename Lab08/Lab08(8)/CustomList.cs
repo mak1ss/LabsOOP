@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab08_8_
 {
-    public class CustomList<T> where T : IComparable<T>
+    public class CustomList<T> : IEnumerable<T> where T : IComparable<T>
     {
         private T[] dynamicArray = new T[16];
         private int threshold = (int)(16 * 0.75);
@@ -94,11 +95,28 @@ namespace Lab08_8_
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < Size; i++)
+            int i = 0;
+            foreach (T item in this)
             {
-                builder.Append($"[ {dynamicArray[i]} ]");
+                if (i++ < Size)
+                {
+                    builder.Append($"[ {item} ]");
+                } else
+                {
+                    break;
+                }
             }
             return builder.ToString();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new CustomListEnumerator<T>(dynamicArray);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new CustomListEnumerator<T>(dynamicArray);
         }
     }
 }
