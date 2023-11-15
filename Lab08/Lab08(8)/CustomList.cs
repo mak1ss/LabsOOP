@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab08_7_
+namespace Lab08_8_
 {
     public class CustomList<T> where T : IComparable<T>
     {
@@ -29,7 +28,7 @@ namespace Lab08_7_
 
         public T Remove(int index)
         {
-            if(index < 0 || index >= Size)
+            if (index < 0 || index >= Size)
             {
                 throw new ArgumentException("Inalid index!");
             }
@@ -43,7 +42,7 @@ namespace Lab08_7_
 
         public bool Contains(T item)
         {
-            foreach(T value in dynamicArray)
+            foreach (T value in dynamicArray)
             {
                 if (value.Equals(item))
                 {
@@ -55,7 +54,8 @@ namespace Lab08_7_
 
         public void Swap(int index1, int index2)
         {
-            if((index1 < 0 || index2 < 0) || (index1 >= Size || index2 >= Size)){
+            if ((index1 < 0 || index2 < 0) || (index1 >= Size || index2 >= Size))
+            {
                 throw new ArgumentException("Invalid index!");
             }
             T temp = dynamicArray[index1];
@@ -86,10 +86,15 @@ namespace Lab08_7_
             return dynamicArray.Min();
         }
 
+        public void Sort()
+        {
+            Array.Sort(dynamicArray);
+        }
+
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            for(int i = 0; i < Size; i++)
+            for (int i = 0; i < Size; i++)
             {
                 builder.Append($"[ {dynamicArray[i]} ]");
             }
