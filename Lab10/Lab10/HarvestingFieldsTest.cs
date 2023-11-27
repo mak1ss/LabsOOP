@@ -9,10 +9,9 @@
         {
             string input;
             Type type = new HarvestingFields().GetType();
-            FieldInfo[] fieldsInfo;
+            FieldInfo[] fieldsInfo = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             while (!(input = Console.ReadLine()).Equals("HARVEST"))
             {
-                fieldsInfo = type.GetFields();
                 switch (input)
                 {
                     case "private":
@@ -46,8 +45,8 @@
                         string modifier;
                         foreach (FieldInfo field in fieldsInfo)
                         {
-                            modifier = field.IsPrivate ? "private" : field.IsPublic ? "public" : field.IsFamily ? "protected" : "internal";
-                            Console.WriteLine($" {field.FieldType.Name} {field.Name}");
+                            modifier = field.IsPrivate ? "private" : field.IsPublic ? "public" : field.IsFamily ? "protected" : "unknown";
+                            Console.WriteLine($"{modifier} {field.FieldType.Name} {field.Name}");
                         }
                         break;
                 }
