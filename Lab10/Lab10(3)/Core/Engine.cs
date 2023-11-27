@@ -2,6 +2,8 @@
 {
     using System;
     using Contracts;
+    using _03BarracksFactory.Data;
+    using System.Reflection;
 
     class Engine : IRunnable
     {
@@ -13,7 +15,7 @@
             this.repository = repository;
             this.unitFactory = unitFactory;
         }
-        
+
         public void Run()
         {
             while (true)
@@ -33,42 +35,22 @@
             }
         }
 
-        // TODO: refactor for Problem 4
+        // Refactored for Problem 4
         private string InterpredCommand(string[] data, string commandName)
         {
-            string result = string.Empty;
-            switch (commandName)
+
+            Type commandType = Type.GetType($"_03BarracksFactory.Data.{commandName}", false, true);
+            if (commandType == null || !typeof(Command).IsAssignableFrom(commandType))
             {
-                case "add":
-                    result = this.AddUnitCommand(data);
-                    break;
-                case "report":
-                    result = this.ReportCommand(data);
-                    break;
-                case "fight":
-                    Environment.Exit(0);
-                    break;
-                default:
-                    throw new InvalidOperationException("Invalid command!");
+                throw new InvalidOperationException("Invalid command!");
             }
-            return result;
-        }
-
-
-        private string ReportCommand(string[] data)
-        {
-            string output = this.repository.Statistics;
-            return output;
-        }
-
-
-        private string AddUnitCommand(string[] data)
-        {
-            string unitType = data[1];
-            IUnit unitToAdd = this.unitFactory.CreateUnit(unitType);
-            this.repository.AddUnit(unitToAdd);
-            string output = unitType + " added!";
-            return output;
+            ConstructorInfo constructor = commandType.GetConstructor(new Type[] { typeof(string), typeof(IRepository), typeof(IUnitFactory) });
+            if (constructor != null)
+            {
+                Command command = (Command)constructor.Invoke(new object[] { data, this.repository, this.unitFactory });
+                return command.Execute();
+            }
+            throw new NullReferenceException("Something went wrong");
         }
     }
 }

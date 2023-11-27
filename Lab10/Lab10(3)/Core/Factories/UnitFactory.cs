@@ -10,7 +10,7 @@
         public IUnit CreateUnit(string unitType)
         {
             Type type = Type.GetType($"_03BarracksFactory.Models.Units.{unitType}", false);
-            if (type == null || !(Type.GetType("_03BarracksFactory.Contracts.IUnit").IsAssignableFrom(type)))
+            if (type == null || !typeof(IUnit).IsAssignableFrom(type))
             {
                 throw new ArgumentException("Unknown type of warrior");
             }
