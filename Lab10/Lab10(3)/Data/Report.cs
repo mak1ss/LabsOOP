@@ -9,12 +9,15 @@ namespace _03BarracksFactory.Data
 {
     class Report : Command
     {
-        public Report(string[] data, IRepository repository, IUnitFactory factory) 
-            : base(data, repository, factory) { }
+        [Inject]
+        private IRepository repository;
+
+        public Report(string[] data) 
+            : base(data) { }
 
         public override string Execute()
         {
-            string output = Repository.Statistics;
+            string output = repository.Statistics;
             return output;
         }
     }

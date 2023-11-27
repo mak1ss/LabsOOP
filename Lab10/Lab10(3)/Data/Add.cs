@@ -9,13 +9,20 @@ namespace _03BarracksFactory.Data
 {
     class Add : Command
     {
-        public Add(string[] data, IRepository repository, IUnitFactory factory)
-            : base(data, repository, factory) { }
+        [Inject]
+        private IRepository repository;
+
+        [Inject]
+        private IUnitFactory factory;
+
+        public Add(string[] data)
+            : base(data) { }
+
         public override string Execute()
         {
             string unitType = Data[1];
-            IUnit unitToAdd = Factory.CreateUnit(unitType);
-            Repository.AddUnit(unitToAdd);
+            IUnit unitToAdd = factory.CreateUnit(unitType);
+            repository.AddUnit(unitToAdd);
             string output = unitType + " added!";
             return output;
         }
