@@ -1,4 +1,5 @@
 ﻿using Lab19.P01_HospitalDatabase.Data;
+using Lab19.P01_HospitalDatabase.Data.Models;
 using Lab19.P01_HospitalDatabase.Services;
 
 internal class Program
@@ -9,66 +10,88 @@ internal class Program
 
         using (var context = new HospitalContext())
         {
-            hospitalService = new HospitalService(context);
-
+            
             while (true)
             {
-                Console.WriteLine("1. Add Patient");
-                Console.WriteLine("2. View Patients");
-                Console.WriteLine("3. Add Visitation");
-                Console.WriteLine("4. View Visitations");
-                Console.WriteLine("5. Add Diagnose");
-                Console.WriteLine("6. View Diagnoses");
-                Console.WriteLine("7. Add Medicament");
-                Console.WriteLine("8. View Medicaments");
-                Console.WriteLine("9. Add Presription to Patient");
-                Console.WriteLine("10. View Patient`s Presriptions");
-                Console.WriteLine("0. Exit");
-
-                Console.Write("Enter your choice: ");
-                string choice = Console.ReadLine();
-
-                switch (choice)
+                Console.WriteLine("1. Log in");
+                Console.WriteLine("2. Log out");
+                if (Console.ReadLine() == "2")
                 {
-                    case "1":
-                        AddPatient();
-                        break;
-                    case "2":
-                        Console.WriteLine("Patients:");
-                        hospitalService.ViewPatients();
-                        break;
-                    case "3":
-                        AddVisitation();
-                        break;
-                    case "4":
-                        ViewVisitations();
-                        break;
-                    case "5":
-                        AddDiagnose();
-                        break;
-                    case "6":
-                        ViewDiagnoses();
-                        break;
-                    case "7":
-                        AddMedicament();
-                        break;
-                    case "8":
-                        Console.WriteLine("Medicaments:");
-                        hospitalService.ViewMedicaments();
-                        break;
-                    case "9":
-                        AddPrescription();
-                        break;
-                    case "10":
-                        ViewPrescription();
-                        break;
-                    case "0":
-                        return;
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
+                    break;
                 }
-                Console.WriteLine();
+                Console.WriteLine("Please log In: \nDoctor Name: ");
+                string name  = Console.ReadLine();
+                Console.WriteLine("Doctor Specialty: ");
+                string specialty = Console.ReadLine();
+                
+                try
+                {
+                    hospitalService = HospitalService.GetInstance(context, name, specialty);
+
+                } catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    continue;
+                }
+                while (true)
+                {
+                    Console.WriteLine("1. Add Patient");
+                    Console.WriteLine("2. View Patients");
+                    Console.WriteLine("3. Add Visitation");
+                    Console.WriteLine("4. View Visitations");
+                    Console.WriteLine("5. Add Diagnose");
+                    Console.WriteLine("6. View Diagnoses");
+                    Console.WriteLine("7. Add Medicament");
+                    Console.WriteLine("8. View Medicaments");
+                    Console.WriteLine("9. Add Presription to Patient");
+                    Console.WriteLine("10. View Patient`s Presriptions");
+                    Console.WriteLine("0. Exit");
+
+                    Console.Write("Enter your choice: ");
+                    string choice = Console.ReadLine();
+
+                    switch (choice)
+                    {
+                        case "1":
+                            AddPatient();
+                            break;
+                        case "2":
+                            Console.WriteLine("Patients:");
+                            hospitalService.ViewPatients();
+                            break;
+                        case "3":
+                            AddVisitation();
+                            break;
+                        case "4":
+                            ViewVisitations();
+                            break;
+                        case "5":
+                            AddDiagnose();
+                            break;
+                        case "6":
+                            ViewDiagnoses();
+                            break;
+                        case "7":
+                            AddMedicament();
+                            break;
+                        case "8":
+                            Console.WriteLine("Medicaments:");
+                            hospitalService.ViewMedicaments();
+                            break;
+                        case "9":
+                            AddPrescription();
+                            break;
+                        case "10":
+                            ViewPrescription();
+                            break;
+                        case "0":
+                            return;
+                        default:
+                            Console.WriteLine("Invalid choice. Please try again.");
+                            break;
+                    }
+                    Console.WriteLine();
+                }
             }
         }
     }

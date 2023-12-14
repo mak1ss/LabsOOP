@@ -13,11 +13,32 @@ namespace Lab19.P01_HospitalDatabase.Services
 {
     public class HospitalService : IHospitalService
     {
-        private readonly HospitalContext _context;
-
-        public HospitalService(HospitalContext context)
+        private static HospitalService? singleton;
+        private static HospitalContext _context;
+        private static Doctor? doctor;
+        private HospitalService(HospitalContext context)
         {
             _context = context;
+        }
+
+        public static HospitalService GetInstance(HospitalContext context, string doctorName, string doctorSpecialty)
+        {
+            if(singleton == null)
+            {
+                singleton = new HospitalService(context);
+                doctor = Authorize(doctorName, doctorSpecialty);
+                if (doctor == null)
+                {
+                    throw new ArgumentException("Unknown identity");
+                }
+                return singleton;
+            }
+            return singleton;
+        }
+
+        private static Doctor Authorize(string doctorName, string doctorSpecialty)
+        {
+            return _context.Doctors.Where(d => d.Name == doctorName && d.Specialty == doctorSpecialty).First();
         }
 
         public void AddPatient(string firstName, string lastName, string address, string email, bool hasInsurance)
@@ -67,7 +88,7 @@ namespace Lab19.P01_HospitalDatabase.Services
 
         public void ViewVisitations()
         {
-            var visitations = _context.visitations.ToList();
+            var visitations = _context.visitations.Where(v => v.Doctor == doctor).ToList();
             foreach (var visitation in visitations)
             {
                 Console.WriteLine($"Visitation ID: {visitation.Id}, Date: {visitation.Date}, Comments: {visitation.Comments}");
